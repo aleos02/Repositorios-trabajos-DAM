@@ -1,0 +1,40 @@
+<form [formGroup]="petForm" (ngSubmit)="onSubmit()">
+<h3>Pet Register</h3>
+<p>Complete the form to register your pet.</p>
+
+    <div class="group">
+        <label>Pet name</label>
+        <input type="text" formControlName="petName" placeholder="Ej: Rocky">
+        @if (petName?.invalid && petName?.touched) { <span class="error">Invalid name</span> }
+    </div>
+
+    <div class="group">
+        <label>Type</label>
+        <select formControlName="petType">
+          <option></option>
+          <option value="Dog">Dog</option>
+          <option value="Cat">Cat</option>
+          <option value="Hamster">Hamster</option>
+          <option value="Parrot">Parrot</option>
+          <option value="Other">Other</option>
+        </select>
+        @if (petType?.invalid && petType?.touched) { <span class="error">Invalid type</span> }
+    </div>
+
+    <div class="group">
+        <label>Pet Age</label>
+        <input type="number" formControlName="petAge" placeholder="Ej: 3" min="0">
+        @if (petAge?.invalid && petAge?.touched) { <span class="error">Invalid age</span> }
+    </div>
+
+    <div class="group">
+        <label>Pet Microchip</label>
+        <input type="checkbox" formControlName="petMicrochip">
+    </div>
+
+      <button type="submit" [disabled]="petForm.invalid" >Enviar Feedback</button>
+      
+    </form>
+    @if(pet){
+        <app-pet-list [pet]="pet1"></app-pet-list>
+    }

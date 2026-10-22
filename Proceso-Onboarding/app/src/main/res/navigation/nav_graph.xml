@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.procesoonboarding.HomeFragment"
+        android:label="fragment_inicio"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_contactFragment"
+            app:destination="@id/contactFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactFragment"
+        android:name="com.example.procesoonboarding.ContactFragment"
+        android:label="fragment_contact"
+        tools:layout="@layout/fragment_contact" >
+        <action
+            android:id="@+id/action_contactFragment_to_resumeFragment"
+            app:destination="@id/resumeFragment" />
+        <action
+            android:id="@+id/action_contactFragment_to_sportFragment"
+            app:destination="@id/sportFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sportFragment"
+        android:name="com.example.procesoonboarding.SportFragment"
+        android:label="fragment_sport"
+        tools:layout="@layout/fragment_sport" >
+        <action
+            android:id="@+id/action_sportFragment_to_resumeFragment"
+            app:destination="@id/resumeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/resumeFragment"
+        android:name="com.example.procesoonboarding.ResumeFragment"
+        android:label="fragment_resume"
+        tools:layout="@layout/fragment_resume" >
+        <action
+            android:id="@+id/action_resumeFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <argument
+        android:name="userName"
+        app:argType="string" />
+    <argument
+        android:name="birthdate"
+        app:argType="string"/>
+    <argument
+        android:name="sports"
+        app:argType="string[]"/>
+</navigation>

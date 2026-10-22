@@ -1,0 +1,197 @@
+<ion-content class="ion-padding anbu-dark-bg">
+  <div class="anbu-dashboard">
+    
+    <div class="kpi-card kpi-stock">
+      <h3>Stock Total</h3>
+      <p class="kpi-value">{{ stats.totalStock }}</p>
+    </div>
+    <div class="kpi-card kpi-valor">
+      <h3>Valoración Total</h3>
+      <p class="kpi-value">{{ stats.totalValor }} €</p>
+    </div>
+    <div class="kpi-card kpi-alertas">
+      <h3>Alertas Críticas</h3>
+      <p class="kpi-value critical">{{ stats.bajoStock }}</p>
+    </div>
+    <div class="kpi-card kpi-lider">
+      <h3>Categoría Líder</h3>
+      <p class="kpi-value">{{ stats.categoriaPrincipal }}</p>
+    </div>
+
+    <div class="chart-section chart-radar">
+      <h3>Balance de Operaciones (Radar)</h3>
+      <div class="canvas-wrapper">
+        <canvas *ngIf="radarChartData" baseChart
+                [data]="radarChartData"
+                [options]="radarChartOptions"
+                [type]="radarChartType">
+        </canvas>
+      </div>
+    </div>
+
+    <div class="chart-section chart-donut">
+      <h3>Distribución de Recursos</h3>
+      <div class="canvas-wrapper">
+        <canvas *ngIf="donutChartData" baseChart
+                [data]="donutChartData"
+                [options]="donutChartOptions"
+                [type]="donutChartType">
+        </canvas>
+      </div>
+    </div>
+
+    <div class="chart-section chart-bar">
+      <h3 class="chart-title text-left">Stock por Categoría</h3>
+      <div class="canvas-wrapper height-bar">
+        <canvas *ngIf="barChartData" baseChart 
+                [data]="barChartData" 
+                [options]="barChartOptions" 
+                [type]="barChartType">
+        </canvas>
+      </div>
+    </div>
+
+    <div class="inventory-section">
+      
+      <div class="anbu-action-bar">
+        <div class="search-box">
+          <input type="text" [(ngModel)]="filtroTexto" (input)="aplicarFiltros()" placeholder="Buscar suministros o categorías..." class="bar-input-text" />
+        </div>
+
+        <div class="slider-box">
+          <label>STOCK MÍNIMO: {{ filtroStockMin }}</label>
+          <input type="range" min="0" max="150" [(ngModel)]="filtroStockMin" (input)="aplicarFiltros()" class="bar-slider" />
+        </div>
+
+        <div class="bar-buttons">
+          <button class="btn-anbu btn-blue" (click)="abrirModalNuevo()">Nuevo Activo</button>
+          <button class="btn-anbu btn-green" (click)="exportar('excel')">Excel</button>
+          <button class="btn-anbu btn-red" (click)="exportar('pdf')">Pdf</button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="anbu-table">
+          <thead>
+  <tr>
+    <th (click)="ordenar('id')" class="sortable">
+      <div class="th-content">
+        ID
+        <span *ngIf="columnaOrdenada === 'id'" class="sort-arrow">
+          {{ ordenAscendente ? '▲' : '▼' }}
+        </span>
+      </div>
+    </th>
+    
+    <th (click)="ordenar('nombre')" class="sortable">
+      <div class="th-content">
+        Material
+        <span *ngIf="columnaOrdenada === 'nombre'" class="sort-arrow">
+          {{ ordenAscendente ? '▲' : '▼' }}
+        </span>
+      </div>
+    </th>
+    
+    <th (click)="ordenar('categoria')" class="sortable">
+      <div class="th-content">
+        Categoría
+        <span *ngIf="columnaOrdenada === 'categoria'" class="sort-arrow">
+          {{ ordenAscendente ? '▲' : '▼' }}
+        </span>
+      </div>
+    </th>
+    
+    <th (click)="ordenar('stock')" class="sortable">
+      <div class="th-content">
+        Stock
+        <span *ngIf="columnaOrdenada === 'stock'" class="sort-arrow">
+          {{ ordenAscendente ? '▲' : '▼' }}
+        </span>
+      </div>
+    </th>
+    
+    <th (click)="ordenar('rangoRequerido')" class="sortable">
+      <div class="th-content">
+        Rango
+        <span *ngIf="columnaOrdenada === 'rangoRequerido'" class="sort-arrow">
+          {{ ordenAscendente ? '▲' : '▼' }}
+        </span>
+      </div>
+    </th>
+    
+    <th style="text-align: center;">Acciones</th>
+  </tr>
+</thead>
+          <tbody>
+            <tr *ngFor="let s of suministrosFiltrados" [class.stock-critico]="s.stock < 10" [class.fila-seleccionada]="suministrosSeleccionados.has(s.id)" class="anbu-row-card">
+              <td><span class="cell-id">{{ s.id }}</span></td>
+              <td><strong>{{ s.nombre }}</strong></td>
+              <td>{{ s.categoria }}</td>
+              <td><span class="cell-stock">{{ s.stock }}</span></td>
+              <td>
+                <span class="badge" [ngClass]="'badge-' + s.rangoRequerido.toLowerCase()">
+                  {{ s.rangoRequerido }}
+                </span>
+              </td>
+              <td class="cell-actions">
+                <ion-icon name="create-outline" class="icon-edit" (click)="cargarEnFormulario(s)"></ion-icon>
+                <ion-icon name="trash-outline" class="icon-delete" (click)="eliminarActivo(s.id)"></ion-icon>
+              </td>
+            </tr>
+            <tr *ngIf="suministrosFiltrados.length === 0">
+              <td colspan="7" class="empty-table">No hay registros que coincidan con la telemetría actual.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div> <ion-modal [isOpen]="isModalOpen" (didDismiss)="isModalOpen = false" class="anbu-modal-container">
+    <ng-template>
+      <div class="anbu-modal-content">
+        <div class="modal-header">
+          <h2>{{ editando ? 'EDITAR ACTIVO' : 'NUEVO ACTIVO' }}</h2>
+          <button class="btn-cerrar" (click)="isModalOpen = false">CERRAR</button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group">
+            <label>NOMBRE DEL MATERIAL</label>
+            <input type="text" [(ngModel)]="formSuministro.nombre" placeholder="Ej. Kunai de Élite" class="modal-input" />
+          </div>
+
+          <div class="form-group">
+            <label>CATEGORÍA</label>
+            <select [(ngModel)]="formSuministro.categoria" class="modal-select">
+              <option value="Armamento">Armamento</option>
+              <option value="Médico">Médico</option>
+              <option value="Sigilo">Sigilo</option>
+              <option value="Herramientas">Herramientas</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>STOCK DISPONIBLE</label>
+            <input type="number" [(ngModel)]="formSuministro.stock" class="modal-input" />
+          </div>
+
+          <div class="form-group">
+            <label>PRECIO UNITARIO (€)</label>
+            <input type="number" [(ngModel)]="formSuministro.precioUnitario" class="modal-input" />
+          </div>
+
+          <div class="form-group">
+            <label>RANGO REQUERIDO</label>
+            <select [(ngModel)]="formSuministro.rangoRequerido" class="modal-select">
+              <option value="Genin">Genin</option>
+              <option value="Chunin">Chunin</option>
+              <option value="Jonin">Jonin</option>
+              <option value="Anbu">Anbu</option>
+            </select>
+          </div>
+
+          <button class="btn-submit" (click)="guardarActivo()">
+            {{ editando ? 'ACTUALIZAR ARSENAL' : 'AÑADIR AL ARSENAL' }}
+          </button>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>

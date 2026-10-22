@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/pokemon_nav_graph"
+    app:startDestination="@id/plantaFragment">
+
+    <fragment
+        android:id="@+id/plantaFragment"
+        android:name="com.example.menus.PlantaFragment"
+        android:label="Planta"
+        tools:layout="@layout/fragment_planta" />
+    <fragment
+        android:id="@+id/psiquicoFragment"
+        android:name="com.example.menus.PsiquicoFragment"
+        android:label="Psiquico"
+        tools:layout="@layout/fragment_psiquico" />
+    <fragment
+        android:id="@+id/fantasmaFragment"
+        android:name="com.example.menus.FantasmaFragment"
+        android:label="Fantasma"
+        tools:layout="@layout/fragment_fantasma" />
+    <fragment
+        android:id="@+id/dragonFragment"
+        android:name="com.example.menus.DragonFragment"
+        android:label="Dragon"
+        tools:layout="@layout/fragment_dragon" />
+</navigation>

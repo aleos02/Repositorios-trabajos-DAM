@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/alonsoFragment"
+        android:icon="@drawable/corona"
+        android:title="Alonso" />
+
+    <item
+        android:id="@+id/sainzFragment"
+        android:icon="@drawable/coche"
+        android:title="Sainz" />
+
+    <item
+        android:id="@+id/verstappenFragment"
+        android:icon="@drawable/trofeo"
+        android:title="Verstappen" />
+</menu>

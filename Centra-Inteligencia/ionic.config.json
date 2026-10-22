@@ -1,0 +1,7 @@
+{
+  "name": "central-inteligencia",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/plantaFragment"
+        android:icon="@drawable/leafeon"
+        android:title="Planta" />
+
+    <item
+        android:id="@+id/psiquicoFragment"
+        android:icon="@drawable/alakazam"
+        android:title="Psiquico" />
+
+    <item
+        android:id="@+id/fantasmaFragment"
+        android:icon="@drawable/gengar"
+        android:title="Fantasma" />
+
+    <item
+        android:id="@+id/dragonFragment"
+        android:icon="@drawable/garchomp"
+        android:title="Dragon" />
+</menu>

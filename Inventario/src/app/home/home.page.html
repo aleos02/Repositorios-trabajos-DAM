@@ -1,0 +1,185 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Bolsa de Ash
+    </ion-title>
+    <ion-button id="addCategoria" fill="clear" color="dark" slot="end">
+      <ion-icon name="list" ></ion-icon>
+    </ion-button>
+    <ion-alert
+      trigger="addCategoria"
+      header="Añadir Categoría"
+      [inputs]="categoriaInputs"
+      [buttons]="categoriaButtons"
+    ></ion-alert>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Tasks</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-searchbar placeholder="Busca un objeto de tu bolsa" (ionInput)="busqueda($event)"></ion-searchbar>
+
+  <div *ngIf="seccion === 'items'">
+  <ion-list>
+    <ion-item-sliding *ngFor="let task of taskService.tasks">
+      <ion-item>
+          <ion-label>
+            <h2 class="titulo">{{ task.name }}</h2>
+            <p class="categoria">{{ task.categoryName }}</p>
+          </ion-label>
+
+          <ion-label slot="end" class="stock">
+            <p>Stock: {{ task.quantity }}</p>
+            
+              <ion-button fill="clear" color="warning" (click)="subirStock(task)">
+                <ion-icon name="add-circle-outline"></ion-icon>
+              </ion-button>
+            
+              <ion-button fill="clear" color="danger"  (click)="bajarStock(task)">
+                <ion-icon name="remove-circle-outline"></ion-icon>
+              </ion-button>
+          </ion-label>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="deleteTask(task.id)">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-item-option>
+        <ion-item-option color="primary" (click)="abrirEditar(task)">
+          <ion-icon slot="icon-only" name="pencil"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</div>
+
+<div *ngIf="seccion === 'categorias'">
+  <ion-list>
+      <ion-list-header>
+        <ion-label>Mis Categorías</ion-label>
+      </ion-list-header>
+      <ion-item *ngFor="let cat of taskService.categorias">
+        <ion-label>{{ cat.name }}</ion-label>
+        <ion-button fill="clear" color="danger"  (click)="eliminarCategoria(cat)">
+          <ion-icon name="trash"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+</div>
+
+<ion-modal #modalEdit>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="end">
+            <ion-button (click)="cancel()">Cancel</ion-button>
+          </ion-buttons>
+          <ion-title>Editar Objeto</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-input
+            label="Nombre del objeto"
+            labelPlacement="stacked"
+            type="text"
+            [(ngModel)]="task.name"
+          ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input
+              label="Cantidad"
+              labelPlacement="stacked"
+              type="number"
+              [(ngModel)]="task.quantity"
+              min="0"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-select label="Categoría" labelPlacement="stacked"[(ngModel)]="task.category_id">
+              <ion-select-option *ngFor="let cat of taskService.categorias" [value]="cat.id">
+                {{ cat.name }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-buttons slot="end">
+            <ion-button (click)="editTask(task.id)" [strong]="true">Confirm</ion-button>
+          </ion-buttons>
+          </ion-item>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+<ion-modal trigger="addItem" #modal>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="end">
+            <ion-button (click)="cancel()">Cancel</ion-button>
+          </ion-buttons>
+          <ion-title>Nuevo Objeto</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-input
+            label="Nombre del objeto"
+            labelPlacement="stacked"
+            type="text"
+            [(ngModel)]="task.name"
+            placeholder="Ej: Hiperpoción "
+          ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input
+              label="Cantidad"
+              labelPlacement="stacked"
+              type="number"
+              placeholder="Ej: 5"
+              [(ngModel)]="task.quantity"
+              min="0"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-select label="Categoría" labelPlacement="stacked" placeholder="Ej: Medicina" [(ngModel)]="task.category_id">
+              <ion-select-option *ngFor="let cat of taskService.categorias" [value]="cat.id">
+                {{ cat.name }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-buttons slot="end">
+            <ion-button (click)="guardarCambios()" [strong]="true">Confirm</ion-button>
+          </ion-buttons>
+          </ion-item>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-fab [hidden]="seccion !== 'items'" id="addItem" slot="fixed" vertical="bottom" horizontal="end">
+  <ion-fab-button color="warning">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+</ion-content>
+
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-segment [value]="seccion" (ionChange)="cambiarSeccion($event)">
+      <ion-segment-button value="items">
+        <ion-label>Bolsa</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="categorias">
+        <ion-label>Categorias</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-footer> 

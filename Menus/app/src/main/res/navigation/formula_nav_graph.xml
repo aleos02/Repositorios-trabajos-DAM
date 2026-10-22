@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/formula_nav_graph"
+    app:startDestination="@id/alonsoFragment">
+
+    <fragment
+        android:id="@+id/alonsoFragment"
+        android:name="com.example.menus.AlonsoFragment"
+        android:label="Alonso"
+        tools:layout="@layout/fragment_alonso" />
+    <fragment
+        android:id="@+id/sainzFragment"
+        android:name="com.example.menus.SainzFragment"
+        android:label="Sainz"
+        tools:layout="@layout/fragment_sainz" />
+    <fragment
+        android:id="@+id/verstappenFragment"
+        android:name="com.example.menus.VerstappenFragment"
+        android:label="Verstappen"
+        tools:layout="@layout/fragment_verstappen" />
+
+</navigation>

@@ -1,0 +1,14 @@
+<div class="task-list-container">
+  <h1 class="task-list-title">To-Do List</h1>
+  <app-task-input (addTask)="onAddTask($event)"></app-task-input>
+  @if(tasks.length === 0) {
+    <div class="empty-state">
+      <p>You have no tasks yet.</p>
+    </div>
+  }
+  <div class="task-items">
+    @for (task of tasks; track task) {
+      <app-task-item class="task-item" [nombreTarea]="task" (deleteTask)="onDeleteTask($event)"/>
+    }
+  </div>
+</div>

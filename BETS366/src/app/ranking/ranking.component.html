@@ -1,0 +1,136 @@
+<ion-split-pane when="md" contentId="main-content">
+  <ion-menu contentId="main-content" type="overlay">
+    <div class="sidebar-wrapper">
+      <div class="sidebar-top">
+        <div class="brand">
+          <div class="brand-title-container">
+            <span class="material-symbols-outlined ball-icon">sports_soccer</span>
+            <h1>BETS366</h1>
+          </div>
+        </div>
+
+        <nav class="nav-menu">
+          <div class="nav-item" [class.active]="router.url.includes('panel')" (click)="goTo('/panel')">
+            <span class="material-symbols-outlined fill">dashboard</span>
+            <p>Panel</p>
+          </div>
+
+          <div class="nav-item" [class.active]="router.url.includes('liga')" (click)="goTo('/liga')">
+            <span class="material-symbols-outlined">trophy</span>
+            <p>Liga</p>
+          </div>
+
+          <div class="nav-item" [class.active]="router.url.includes('ranking')" (click)="goTo('/ranking')">
+            <span class="material-symbols-outlined">leaderboard</span>
+            <p>Ranking</p>
+          </div>
+
+          <div class="nav-item" [class.active]="router.url.includes('perfil')" (click)="goTo('/perfil')">
+            <span class="material-symbols-outlined">person</span>
+            <p>Mi Perfil</p>
+          </div>
+
+          <div class="nav-item" [class.active]="router.url.includes('historial')" (click)="goTo('/historial')">
+            <span class="material-symbols-outlined">history</span>
+            <p>Historial</p>
+          </div>
+        </nav>
+      </div>
+
+      <div class="sidebar-bottom">
+        <div class="user-info">
+          <div class="avatar">
+            <img [src]="currentUser.profilePic" alt="User Avatar" />
+          </div>
+          <div class="user-text">
+            <p class="name">{{ currentUser.username }}</p>
+          </div>
+        </div>
+
+        <div class="logout-btn" (click)="onLogout()">
+          <span class="material-symbols-outlined">logout</span>
+          <p>Log Out</p>
+        </div>
+      </div>
+    </div>
+  </ion-menu>
+
+  <div class="ion-page" id="main-content">
+    <ion-content [fullscreen]="true">
+      <div class="main-container">
+
+        <header class="page-heading">
+          <div class="title-group">
+            <h1>Ranking Global</h1>
+            <p>Compite con otros usuarios por el primer puesto</p>
+          </div>
+        </header>
+
+        <div class="podium-container" *ngIf="topThree.length >= 0">
+          <div class="podium-item second" [style.visibility]="topThree[1] ? 'visible' : 'hidden'">
+            <div class="avatar-wrapper">
+              <img [src]="getAvatar(topThree[1]?.username || 'vacio')" />
+              <div class="badge-rank">2</div>
+            </div>
+            <div class="podium-box">
+              <p class="name">{{ topThree[1]?.username || '---' }}</p>
+              <p class="pts">{{ topThree[1]?.points || 0 }} pts</p>
+            </div>
+          </div>
+
+          <div class="podium-item first">
+            <div class="avatar-wrapper">
+              <span class="material-symbols-outlined crown">workspace_premium</span>
+              <img [src]="getAvatar(topThree[0]?.username)" />
+              <div class="badge-rank">1</div>
+            </div>
+            <div class="podium-box">
+              <p class="name">{{ topThree[0]?.username }}</p>
+              <p class="pts">{{ topThree[0]?.points }} pts</p>
+            </div>
+          </div>
+
+          <div class="podium-item third" [style.visibility]="topThree[2] ? 'visible' : 'hidden'">
+            <div class="avatar-wrapper">
+              <img [src]="getAvatar(topThree[2]?.username || 'vacio')" />
+              <div class="badge-rank">3</div>
+            </div>
+            <div class="podium-box">
+              <p class="name">{{ topThree[2]?.username || '---' }}</p>
+              <p class="pts">{{ topThree[2]?.points || 0 }} pts</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-card ranking-card">
+          <div class="table-container">
+            <table class="standing-table">
+              <thead>
+                <tr>
+                  <th>POSICIÓN</th>
+                  <th>USUARIO</th>
+                  <th class="text-right">PUNTOS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of leaderboard; let i = index"
+                  [class.is-current]="user.username === currentUser.username">
+                  <td class="pos">{{ i + 1 }}</td>
+                  <td>
+                    <div class="user-cell">
+                      <img [src]="getAvatar(user.username)" class="mini-avatar">
+                      <span>{{ user.username }}</span>
+                      <span class="me-badge" *ngIf="user.username === currentUser.username">TÚ</span>
+                    </div>
+                  </td>
+                  <td class="pts text-right">{{ user.points }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </ion-content>
+  </div>
+</ion-split-pane>

@@ -1,0 +1,155 @@
+<ion-split-pane when="md" contentId="main-content">
+  <ion-menu contentId="main-content" type="overlay">
+    <div class="sidebar-wrapper">
+      <div class="sidebar-top">
+        <div class="brand">
+          <div class="brand-title-container">
+            <span class="material-symbols-outlined ball-icon">sports_soccer</span>
+            <h1>BETS366</h1>
+          </div>
+        </div>
+
+        <nav class="nav-menu">
+          <div class="nav-item" [class.active]="router.url.includes('panel')" (click)="goTo('/panel')">
+            <span class="material-symbols-outlined fill">dashboard</span>
+            <p>Panel</p>
+          </div>
+
+          <div class="nav-item" [class.active]="router.url.includes('liga')" (click)="goTo('/liga')">
+            <span class="material-symbols-outlined">trophy</span>
+            <p>Liga</p>
+          </div>
+
+          <div class="nav-item" [class.active]="router.url.includes('ranking')" (click)="goTo('/ranking')">
+            <span class="material-symbols-outlined">leaderboard</span>
+            <p>Ranking</p>
+          </div>
+
+          <div class="nav-item" [class.active]="router.url.includes('perfil')" (click)="goTo('/perfil')">
+            <span class="material-symbols-outlined">person</span>
+            <p>Mi Perfil</p>
+          </div>
+
+          <div class="nav-item" [class.active]="router.url.includes('historial')" (click)="goTo('/historial')">
+            <span class="material-symbols-outlined">history</span>
+            <p>Historial</p>
+          </div>
+        </nav>
+      </div>
+
+      <div class="sidebar-bottom">
+        <div class="user-info">
+          <div class="avatar">
+            <img [src]="currentUser.profilePic" alt="User Avatar" />
+          </div>
+          <div class="user-text">
+            <p class="name">{{ currentUser.username }}</p>
+          </div>
+        </div>
+
+        <div class="logout-btn" (click)="onLogout()">
+          <span class="material-symbols-outlined">logout</span>
+          <p>Log Out</p>
+        </div>
+      </div>
+    </div>
+  </ion-menu>
+
+  <div class="ion-page" id="main-content">
+    <ion-content [fullscreen]="true">
+      <div class="main-container">
+
+        <header class="page-heading">
+          <div class="title-group">
+            <h1>Panel de partidos</h1>
+            <p class="real-time-info">
+              <span class="dot-live"></span>
+              Tiempo real: {{ today | date:'HH:mm:ss' }}
+            </p>
+          </div>
+
+          <div class="search-box">
+            <ion-icon name="search"></ion-icon>
+            <ion-input placeholder="Buscar equipos o ligas..." (ionInput)="handleSearch($event)" mode="md"
+              class="custom-input">
+            </ion-input>
+          </div>
+        </header>
+
+        <div class="filter-row">
+          <div class="chips-group">
+            <div class="chip" [class.active]="filterStatus === 'all'" (click)="setFilter('all')">
+              Todos
+            </div>
+            <div class="chip" [class.active]="filterStatus === 'pending'" (click)="setFilter('pending')">
+              Próximos
+            </div>
+            <div class="chip" [class.active]="filterStatus === 'live'" (click)="setFilter('live')">
+              <span class="dot"></span> En Vivo
+            </div>
+            <div class="chip" [class.active]="filterStatus === 'finished'" (click)="setFilter('finished')">
+              Finalizados
+            </div>
+          </div>
+        </div>
+
+        <div class="matches-grid" *ngIf="filteredMatches.length > 0">
+          <div class="match-card-custom" *ngFor="let match of filteredMatches">
+
+            <div class="card-header">
+              <span class="matchday-label">MATCHDAY</span>
+              <span class="status-badge" [ngClass]="'badge-' + match.status">
+                {{ match.status === 'live' ? 'EN VIVO' : (match.status === 'pending' ? 'PRÓXIMO' : 'FINAL') }}
+              </span>
+            </div>
+
+            <div class="teams-display">
+              <div class="team">
+                <div class="team-logo-wrapper">
+                  <img [src]="getEscudoUrl(match.home)" [alt]="match.home">
+                </div>
+                <p class="team-name">{{ match.home }}</p>
+              </div>
+
+              <div class="score-info">
+                <div class="score-text">{{ match.homeScore }} - {{ match.awayScore }}</div>
+                <div class="match-date">{{ match.time | date:'dd/MM/yyyy HH:mm' }}</div>
+              </div>
+
+              <div class="team">
+                <div class="team-logo-wrapper">
+                  <img [src]="getEscudoUrl(match.away)" [alt]="match.away">
+                </div>
+                <p class="team-name">{{ match.away }}</p>
+              </div>
+            </div>
+
+            <div class="last-event-box" *ngIf="match.events && match.events.length > 0">
+              <div class="event-title">
+                <span class="material-symbols-outlined soccer-icon">sports_soccer</span>
+                <span>ÚLTIMO GOL</span>
+              </div>
+              <div class="event-details">
+                <div class="player-info">
+                  <img [src]="match.events[match.events.length - 1].playerAvatar" class="mini-avatar">
+                  <span class="player-name">{{ match.events[match.events.length - 1].player }}</span>
+                </div>
+                <span class="event-minute">{{ match.events[match.events.length - 1].minute }}'</span>
+              </div>
+            </div>
+
+            <button class="btn-ver-detalles" (click)="goToDetalles(match.id)">
+              Ver detalles
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="filteredMatches.length === 0" class="empty-state">
+          <span class="material-symbols-outlined">search_off</span>
+          <p>No se han encontrado partidos con los criterios seleccionados.</p>
+        </div>
+
+      </div>
+    </ion-content>
+  </div>
+</ion-split-pane>

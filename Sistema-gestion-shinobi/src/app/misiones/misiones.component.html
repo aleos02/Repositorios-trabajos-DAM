@@ -1,0 +1,108 @@
+<ion-split-pane contentId="main-content" when="lg">
+  <ion-menu contentId="main-content" class="narrow-menu">
+    <div class="sidebar-content">
+      <div class="profile-section">
+        <ion-avatar>
+          <img [src]="usuario.avatar" [alt]="usuario.username" />
+        </ion-avatar>
+        <div class="profile-info">
+          <h3>{{ usuario.username }}</h3>
+          <div class="rank-container">
+            <span class="rank-badge">{{ usuario.rank }}</span>
+            <span class="exp-text">{{ usuario.experience }} XP</span>
+          </div>
+        </div>
+      </div>
+
+      <ion-list lines="none" class="nav-list">
+        <ion-item button class="active">
+          <ion-icon slot="start" name="explore"></ion-icon>
+          <ion-label>Misiones</ion-label>
+        </ion-item>
+      </ion-list>
+
+      <div class="logout-wrapper">
+        <ion-button (click)="onLogout()" fill="clear" color="danger" expand="block">
+          <ion-icon slot="start" name="logout"></ion-icon>
+          Cerrar Sesión
+        </ion-button>
+      </div>
+    </div>
+  </ion-menu>
+
+  <div class="ion-page" id="main-content">
+    <ion-header class="ion-no-border">
+      <div class="main-header">
+        <div class="header-left">
+          <ion-menu-button color="primary" class="ion-hide-lg-up"></ion-menu-button>
+          <h2>
+            <ion-icon slot="start" name="explore" class="header-icon-main"></ion-icon>
+            Misiones Konoha
+          </h2>
+        </div>
+
+        <div class="search-bar">
+          <ion-icon name="search"></ion-icon>
+          <ion-input placeholder="Buscar misiones por nombre o rango..."
+            (ionInput)="buscarMisiones($event)"></ion-input>
+        </div>
+
+        <div class="header-right">
+          <ion-icon name="notifications" class="header-icon"></ion-icon>
+        </div>
+      </div>
+    </ion-header>
+
+    <ion-content class="konoha-theme">
+      <div class="content-container">
+        <div class="tablon-header">
+          <div class="text-group">
+            <h1>Tablón de Misiones</h1>
+            <p>Sirve a la Hoja. Elige tu próxima misión del Hokage.</p>
+          </div>
+
+          <div class="filter-segments">
+            <button [class.active]="filtro === 'DISPONIBLE'" (click)="cambiarFiltro('DISPONIBLE')">Disponibles</button>
+            <button [class.active]="filtro === 'EN_CURSO'" (click)="cambiarFiltro('EN_CURSO')">En Curso</button>
+            <button [class.active]="filtro === 'COMPLETADA'" (click)="cambiarFiltro('COMPLETADA')">Completadas</button>
+          </div>
+        </div>
+
+        <div class="mission-grid">
+          <div class="mission-card" *ngFor="let m of misionesFiltradas" [ngClass]="m.rankRequirement.toLowerCase()">
+            <div class="card-top">
+              <span class="rank-badge">RANGO-{{ m.rankRequirement }}</span>
+            </div>
+            <div class="card-mid">
+              <div class="title-row">
+                <h3>{{ m.title }}</h3>
+                <span class="reward">{{ m.reward | number }} ¥</span>
+              </div>
+              <p class="desc">{{ m.description }}</p>
+            </div>
+            <div class="card-bottom">
+              <ng-container *ngIf="m.status === 'DISPONIBLE'">
+                <span class="status-text">{{ m.status }}</span>
+                <button class="btn-action" (click)="verDetalles(m.id)">Aceptar</button>
+              </ng-container>
+
+              <div class="completed-by-info" *ngIf="m.status !== 'DISPONIBLE'">
+                <div class="ninja-mini-profile">
+                  <ion-avatar class="mini-avatar">
+                    <img
+                      [src]="m.acceptedByNinjaAvatar || 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + m.acceptedByNinjaName" />
+                  </ion-avatar>
+                  <span class="status-text">{{ m.status === 'EN_CURSO' ? 'Asignada a:' : 'Completada por:' }}</span>
+                  <span class="status-text">{{ m.acceptedByNinjaName || 'Ninja Desconocido' }}</span>
+
+                </div>
+                <button class="btn-action" (click)="verDetalles(m.id)">Ver Detalles</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </ion-content>
+  </div>
+</ion-split-pane>

@@ -1,0 +1,89 @@
+<ion-content class="detalles-bg">
+  <header class="tactical-header">
+    <div class="header-content">
+      <h2 class="brand">CENTRO TÁCTICO KONOHA</h2>
+      <button class="btn-back" (click)="volver()">
+        <ion-icon name="arrow-back-outline"></ion-icon> VOLVER AL TABLÓN
+      </button>
+    </div>
+  </header>
+
+  <main class="main-layout" *ngIf="mision">
+    <aside class="side-panel">
+      <div class="panel-label">
+        PERFIL DE MISIÓN <span class="badge" [ngClass]="mision.rankRequirement.toLowerCase()">RANGO
+          {{mision.rankRequirement}}</span>
+      </div>
+
+      <div class="mission-preview-card">
+        <h3>{{ mision.title }}</h3>
+        <p class="status">● {{ mision.status }}</p>
+        <div class="reward">{{ mision.reward }} Ryō</div>
+      </div>
+    </aside>
+
+    <section class="content-panel">
+      <nav class="breadcrumb">
+        <a href="/misiones" class="misionesVolver">Misiones Activas </a> <span>&gt;</span> <strong>{{ mision.title
+          }}</strong>
+      </nav>
+
+      <div class="intel-report">
+        <h1>INFORME DE INTELIGENCIA</h1>
+        <p class="description">{{ mision.description }}</p>
+
+        <div class="report-actions">
+          <button class="btn-accept" *ngIf="mision.status === 'DISPONIBLE'" (click)="aceptarMision()">
+            ACEPTAR MISIÓN
+          </button>
+
+          <ng-container *ngIf="mision.status === 'EN_CURSO'">
+            <button class="btn-abandon" (click)="abandonar()">ABANDONAR</button>
+            <button class="btn-report" (click)="completar()">ENVIAR REPORTE FINAL</button>
+          </ng-container>
+        </div>
+
+        <ng-container *ngIf="mision.status !== 'COMPLETADA' && !reporteEnviado; else vistaCompletada">
+
+          <div class="evidence-section" *ngIf="mision.status === 'EN_CURSO'">
+            <h3 class="section-title"><ion-icon name="camera-outline"></ion-icon> Recolección de Evidencia</h3>
+
+            <div class="upload-box" (click)="foto()">
+              <ng-container *ngIf="!imageUrl">
+                <ion-icon name="camera-outline"></ion-icon>
+                <p>NUEVA EVIDENCIA (CÁMARA)</p>
+              </ng-container>
+              <img *ngIf="imageUrl" [src]="imageUrl" class="preview-img" />
+            </div>
+
+            <h3 class="section-title"><ion-icon name="journal-outline"></ion-icon> Narrativa de la Misión</h3>
+            <div class="scroll-container">
+              <div class="scroll-content">
+                <header>BITÁCORA DE OBSERVACIÓN <span class="star">★</span></header>
+                <textarea placeholder="Describe aquí el resultado de tu misión, shinobi..."></textarea>
+              </div>
+            </div>
+
+          </div>
+
+        </ng-container>
+
+        <ng-template #vistaCompletada>
+          <div class="success-box">
+            <div class="success-content">
+              <ion-icon name="shield-checkmark-outline"></ion-icon>
+              <h2>INFORME PROCESADO</h2>
+              <p>Has cumplido con tu deber, ninja.</p>
+              <button class="btn-back-tablon" (click)="volver()">VOLVER AL TABLÓN</button>
+            </div>
+          </div>
+        </ng-template>
+
+        <div class="lock-section" *ngIf="mision.status === 'DISPONIBLE'">
+          <ion-icon name="lock-closed-outline" class="lock-icon"></ion-icon>
+          <p>La misión está abierta para ninja de rango {{ mision.rankRequirement }} o superior.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</ion-content>

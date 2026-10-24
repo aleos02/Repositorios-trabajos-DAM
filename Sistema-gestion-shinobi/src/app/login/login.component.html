@@ -1,0 +1,64 @@
+<ion-header class="ion-no-border">
+  <div class="custom-nav">
+    <div class="logo-section">
+      <svg class="logo-icon" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z"
+          fill="currentColor"></path>
+      </svg>
+      <ion-title>Sistema de gestión Shinobi</ion-title>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-container">
+    <div class="headline">
+      <h1>Bienvenido de nuevo</h1>
+      <p>Accede a tu cuenta para continuar con tus misiones.</p>
+    </div>
+
+    <div class="login-card">
+      <div class="card-header-visual">
+        <ion-icon name="shield-checkmark-outline"></ion-icon>
+      </div>
+
+      <div class="card-content">
+        <div class="input-group">
+          <ion-label>Nombre de usuario</ion-label>
+          <ion-item lines="none" class="custom-input">
+            <ion-input type="text" formControlName="username" placeholder="Introduce tu usuario">
+            </ion-input>
+          </ion-item>
+        </div>
+
+        <div class="input-group">
+          <div class="label-row">
+            <ion-label>Contraseña</ion-label>
+            <a class="forgot-link">¿Olvidaste tu contraseña?</a>
+          </div>
+          <ion-item lines="none" class="custom-input">
+            <ion-input [type]="passwordVisible ? 'text' : 'password'" formControlName="password"
+              placeholder="Introduce tu contraseña">
+            </ion-input>
+            <ion-button slot="end" fill="clear" (click)="togglePassword()" color="medium" type="button">
+              <ion-icon [name]="passwordVisible ? 'eye-off' : 'eye'"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </div>
+
+        <div *ngIf="error" class="error">
+          <ion-icon name="alert-circle-outline"></ion-icon> {{ error }}
+        </div>
+
+        <ion-button expand="block" class="login-button" type="submit" [disabled]="loginForm.invalid">
+          Iniciar Sesión
+        </ion-button>
+      </div>
+    </div>
+
+    <p class="register-text">
+      ¿No tienes cuenta? <a (click)="goToRegister()">Regístrate ahora</a>
+    </p>
+  </form>
+</ion-content>

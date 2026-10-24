@@ -1,0 +1,162 @@
+<ion-split-pane when="md" contentId="main-content">
+  <ion-menu contentId="main-content" type="overlay">
+    <div class="sidebar-wrapper">
+      <div class="sidebar-top">
+        <div class="brand">
+          <div class="brand-title-container">
+            <span class="material-symbols-outlined ball-icon">sports_soccer</span>
+            <h1>BETS366</h1>
+          </div>
+        </div>
+
+        <nav class="nav-menu">
+          <div class="nav-item" [class.active]="router.url.includes('panel')" (click)="goTo('/panel')">
+            <span class="material-symbols-outlined fill">dashboard</span>
+            <p>Panel</p>
+          </div>
+
+          <div class="nav-item" [class.active]="router.url.includes('liga')" (click)="goTo('/liga')">
+            <span class="material-symbols-outlined">trophy</span>
+            <p>Liga</p>
+          </div>
+
+          <div class="nav-item" [class.active]="router.url.includes('ranking')" (click)="goTo('/ranking')">
+            <span class="material-symbols-outlined">leaderboard</span>
+            <p>Ranking</p>
+          </div>
+
+          <div class="nav-item" [class.active]="router.url.includes('perfil')" (click)="goTo('/perfil')">
+            <span class="material-symbols-outlined">person</span>
+            <p>Mi Perfil</p>
+          </div>
+
+          <div class="nav-item" [class.active]="router.url.includes('historial')" (click)="goTo('/historial')">
+            <span class="material-symbols-outlined">history</span>
+            <p>Historial</p>
+          </div>
+        </nav>
+      </div>
+
+      <div class="sidebar-bottom">
+        <div class="user-info">
+          <div class="avatar">
+            <img [src]="currentUser.profilePic" alt="User Avatar" />
+          </div>
+          <div class="user-text">
+            <p class="name">{{ currentUser.username }}</p>
+          </div>
+        </div>
+
+        <div class="logout-btn" (click)="onLogout()">
+          <span class="material-symbols-outlined">logout</span>
+          <p>Log Out</p>
+        </div>
+      </div>
+    </div>
+  </ion-menu>
+
+  <div class="ion-page" id="main-content">
+    <ion-content [fullscreen]="true" ]>
+      <div class="main-container details-page">
+
+        <header class="details-header">
+          <button class="btn-back" (click)="goBack()">
+            <span class="material-symbols-outlined">arrow_back</span>
+          </button>
+          <div class="title-group">
+            <h1>Detalles del Partido</h1>
+            <p class="match-time-header">{{ match?.time | date:'HH:mm' }}</p>
+          </div>
+        </header>
+
+        <div class="score-main-card">
+          <div class="team-block">
+            <div class="logo-box">
+              <img [src]="getEscudoUrl(match?.home)" alt="Local">
+            </div>
+            <h2>{{ match?.home }}</h2>
+            <span class="label-badge">LOCAL</span>
+          </div>
+
+          <div class="score-display">
+            <span class="score-num">{{ match?.homeScore }}</span>
+            <span class="separator">-</span>
+            <span class="score-num">{{ match?.awayScore }}</span>
+          </div>
+
+          <div class="team-block">
+            <div class="logo-box">
+              <img [src]="getEscudoUrl(match?.away)" alt="Visitante">
+            </div>
+            <h2>{{ match?.away }}</h2>
+            <span class="label-badge">VISITANTE</span>
+          </div>
+        </div>
+
+        <div class="action-section" *ngIf="match?.status === 'pending'">
+          <div class="details-card betting-card">
+            <div class="card-title">
+              <span class="material-symbols-outlined">payments</span>
+              <h3>Realizar Apuesta</h3>
+            </div>
+            <p class="bet-info">Pronostica el marcador final para ganar puntos.</p>
+
+            <div class="bet-inputs">
+              <div class="input-field">
+                <label>{{ match?.home }}</label>
+                <input type="number" [(ngModel)]="betHomeScore" min="0">
+              </div>
+              <div class="vs-label">VS</div>
+              <div class="input-field">
+                <label>{{ match?.away }}</label>
+                <input type="number" [(ngModel)]="betAwayScore" min="0">
+              </div>
+            </div>
+
+            <button class="btn-confirm-bet" (click)="placeBet()" [disabled]="isSavingBet">
+              <span class="material-symbols-outlined">check_circle</span>
+              {{ isSavingBet ? 'Guardando...' : 'Confirmar Apuesta' }}
+            </button>
+          </div>
+        </div>
+
+        <div class="action-section" *ngIf="match && match.status !== 'pending'">
+          <div class="details-card events-card">
+            <div class="card-title">
+              <span class="material-symbols-outlined">sports_soccer</span>
+              <h3>Eventos destacados</h3>
+            </div>
+
+            <div class="events-list">
+              <div class="event-item" *ngFor="let event of match?.events">
+                <div class="player-avatar">
+                  <img
+                    [src]="event.playerAvatar || 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + event.player" />
+                </div>
+                <div class="event-info">
+                  <p class="player-name">{{ event.player }}</p>
+                  <p class="event-detail">
+                    <span class="material-symbols-outlined icon-goal"
+                      style="color: #22c55e; font-size: 14px;">sports_soccer</span>
+                    {{ event.team }} - ¡GOL!
+                  </p>
+                </div>
+                <div class="event-meta">
+                  <span class="minute-badge">{{ event.minute }}'</span>
+                  <span class="score-at-moment" *ngIf="event.scoreAtMoment">{{ event.scoreAtMoment }}</span>
+                </div>
+              </div>
+
+              <div class="empty-events" *ngIf="!match?.events || match?.events.length === 0">
+                <p style="color: #90adcb; text-align: center; padding: 20px;">
+                  No hay eventos registrados.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </ion-content>
+  </div>
+</ion-split-pane>

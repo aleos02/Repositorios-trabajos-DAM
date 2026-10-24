@@ -1,0 +1,186 @@
+$primary: #13ec5b;
+$bg-dark: #102216;
+$card-dark: #1c271f;
+$border-color: #28392e;
+
+:host {
+  --background: #{$bg-dark};
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 2rem;
+  background: $bg-dark;
+  border-bottom: 1px solid $border-color;
+
+  .logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .logo-icon {
+      color: $primary;
+      font-size: 1.5rem;
+    }
+
+    .logo-text {
+      color: white;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+  }
+
+  .btn-login {
+    --background: #{$primary};
+    --color: #{$bg-dark};
+    --border-radius: 8px;
+    font-weight: 700;
+    --padding-start: 20px;
+    --padding-end: 20px;
+  }
+}
+
+.main-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  min-height: 100%;
+}
+
+.register-card {
+  background: $card-dark;
+  border: 1px solid $border-color;
+  border-radius: 20px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+
+  .header-section {
+    text-align: center;
+    margin-bottom: 2rem;
+
+    .icon-circle {
+      background: rgba($primary, 0.15);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+
+      ion-icon {
+        color: $primary;
+        font-size: 1.8rem;
+      }
+    }
+
+    h1 {
+      color: white;
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    p {
+      color: #9db9a6;
+      margin-top: 0.75rem;
+      font-size: 0.95rem;
+    }
+  }
+}
+
+.input-stack {
+  margin-bottom: 1.25rem;
+
+  label {
+    display: block;
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .input-container {
+    background: $bg-dark;
+    border: 1px solid #3b5443;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    transition: 0.3s ease;
+
+    &:focus-within {
+      border-color: $primary;
+      box-shadow: 0 0 0 2px rgba($primary, 0.2);
+    }
+
+    ion-icon {
+      color: #5c7c67;
+      font-size: 1.2rem;
+      margin-right: 12px;
+    }
+
+    ion-input,
+    ion-select {
+      --color: white;
+      --placeholder-color: #5c7c67;
+      font-size: 1rem;
+    }
+  }
+}
+
+.btn-submit {
+  --background: #{$primary};
+  --color: #{$bg-dark};
+  --border-radius: 10px;
+  height: 56px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-top: 1rem;
+  --box-shadow: 0 10px 20px rgba(19, 236, 91, 0.15);
+}
+
+.footer-link {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid $border-color;
+
+  p {
+    color: #5c7c67;
+    font-size: 0.9rem;
+  }
+
+  a {
+    color: $primary;
+    text-decoration: none;
+    font-weight: 700;
+  }
+}
+
+.decorative-line {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, $primary, transparent);
+  opacity: 0.4;
+}
+
+@media (max-width: 576px) {
+  .hide-sm {
+    display: none;
+  }
+}
+
+.error {
+  color: #eb445a;
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 14px;
+}

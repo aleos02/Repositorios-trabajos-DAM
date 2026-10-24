@@ -1,0 +1,164 @@
+$primary-color: #13ec5b;
+$bg-dark: #102216;
+$card-dark: #1c271f;
+$border-dark: #28392e;
+
+:host {
+  --background: #{$bg-dark};
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.custom-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: $bg-dark;
+  border-bottom: 1px solid $border-dark;
+
+  .logo-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+
+    .logo-icon {
+      width: 24px;
+      color: $primary-color;
+    }
+
+    ion-title {
+      font-weight: 800;
+      font-size: 1.2rem;
+      --padding-start: 0;
+    }
+  }
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  min-height: 80%;
+
+  .headline {
+    text-align: center;
+    margin-bottom: 2rem;
+
+    h1 {
+      color: white;
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: #9db9a6;
+      font-size: 1rem;
+    }
+  }
+}
+
+.login-card {
+  background: $card-dark;
+  border: 1px solid $border-dark;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 420px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+
+  .card-header-visual {
+    height: 120px;
+    background: linear-gradient(to right, rgba($primary-color, 0.2), rgba($primary-color, 0.4));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    ion-icon {
+      font-size: 3rem;
+      color: $primary-color;
+    }
+  }
+
+  .card-content {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
+
+.input-group {
+  ion-label {
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .forgot-link {
+    color: $primary-color;
+    font-size: 0.75rem;
+    cursor: pointer;
+  }
+}
+
+.custom-input {
+  --background: #1c271f;
+  --color: white;
+  border: 1px solid #3b5443;
+  border-radius: 8px;
+  margin-top: 5px;
+  --padding-start: 12px;
+}
+
+.login-button {
+  --background: #{$primary-color};
+  --color: #102216;
+  --border-radius: 8px;
+  font-weight: 700;
+  margin-top: 10px;
+  height: 48px;
+}
+
+.register-text {
+  color: #9db9a6;
+  margin-top: 1.5rem;
+
+  a {
+    color: $primary-color;
+    font-weight: 700;
+    margin-left: 5px;
+  }
+}
+
+.custom-footer {
+  text-align: center;
+  padding: 2rem;
+  border-top: 1px solid $border-dark;
+  color: #9db9a6;
+  font-size: 0.8rem;
+
+  .footer-links {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+}
+
+.error {
+  color: #eb445a;
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 14px;
+}

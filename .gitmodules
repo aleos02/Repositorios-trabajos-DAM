@@ -1,0 +1,18 @@
+[submodule "Champions-LOL"]
+	path = Champions-LOL
+	url = https://github.com/aleos02/Champions-LOL.git
+[submodule "Champions-LOL-Routes"]
+	path = Champions-LOL-Routes
+	url = https://github.com/aleos02/Champions-LOL-Routes.git
+[submodule "AnimeWatch-tracker"]
+	path = AnimeWatch-tracker
+	url = https://github.com/aleos02/AnimeWatch-Tracker.git
+[submodule "Proyecto"]
+	path = Proyecto
+	url = https://github.com/aleos02/Proyecto.git
+[submodule "Rick-Morty"]
+	path = Rick-Morty
+	url = https://github.com/aleos02/Rick-Morty.git
+[submodule "Room"]
+	path = Room
+	url = https://github.com/aleos02/Room.git

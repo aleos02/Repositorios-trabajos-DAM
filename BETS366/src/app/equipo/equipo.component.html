@@ -1,0 +1,116 @@
+<ion-split-pane when="md" contentId="main-content">
+  <ion-menu contentId="main-content" type="overlay">
+    <div class="sidebar-wrapper">
+      <div class="sidebar-top">
+        <div class="brand">
+          <div class="brand-title-container">
+            <span class="material-symbols-outlined ball-icon">sports_soccer</span>
+            <h1>BETS366</h1>
+          </div>
+        </div>
+
+        <nav class="nav-menu">
+          <div class="nav-item" [class.active]="router.url.includes('panel')" (click)="goTo('/panel')">
+            <span class="material-symbols-outlined fill">dashboard</span>
+            <p>Panel</p>
+          </div>
+
+          <div class="nav-item" [class.active]="router.url.includes('liga')" (click)="goTo('/liga')">
+            <span class="material-symbols-outlined">trophy</span>
+            <p>Liga</p>
+          </div>
+
+          <div class="nav-item" [class.active]="router.url.includes('ranking')" (click)="goTo('/ranking')">
+            <span class="material-symbols-outlined">leaderboard</span>
+            <p>Ranking</p>
+          </div>
+
+          <div class="nav-item" [class.active]="router.url.includes('perfil')" (click)="goTo('/perfil')">
+            <span class="material-symbols-outlined">person</span>
+            <p>Mi Perfil</p>
+          </div>
+
+          <div class="nav-item" [class.active]="router.url.includes('historial')" (click)="goTo('/historial')">
+            <span class="material-symbols-outlined">history</span>
+            <p>Historial</p>
+          </div>
+        </nav>
+      </div>
+
+      <div class="sidebar-bottom">
+        <div class="user-info">
+          <div class="avatar">
+            <img [src]="currentUser.profilePic" alt="User Avatar" />
+          </div>
+          <div class="user-text">
+            <p class="name">{{ currentUser.username }}</p>
+          </div>
+        </div>
+
+        <div class="logout-btn" (click)="onLogout()">
+          <span class="material-symbols-outlined">logout</span>
+          <p>Log Out</p>
+        </div>
+      </div>
+    </div>
+  </ion-menu>
+
+  <div class="ion-page" id="main-content">
+    <ion-content [fullscreen]="true">
+      <div class="main-container team-page">
+
+        <header class="team-header">
+          <div class="team-hero">
+            <div class="logo-box">
+              <img [src]="getEscudoUrl()" alt="Logo">
+            </div>
+            <div class="text-box">
+              <h1>{{ teamName }}</h1>
+              <p class="count">{{ players.length }} Jugadores en plantilla</p>
+            </div>
+          </div>
+        </header>
+
+        <section class="players-section">
+          <div class="section-header">
+            <h3><span class="material-symbols-outlined">groups</span> Plantilla Actual</h3>
+          </div>
+
+          <div class="players-grid" *ngIf="!isLoading; else loadingTemp">
+            <div class="player-card" *ngFor="let player of players">
+              <div class="player-top">
+                <div class="player-avatar">
+                  <img [src]="getAvatar(player.name)" />
+                </div>
+                <div class="player-number">#{{ player.id }}</div>
+              </div>
+
+              <div class="player-info">
+                <h4>{{ player.name }}</h4>
+                <span class="position-tag">{{ player.position || 'Jugador' }}</span>
+              </div>
+
+              <div class="player-stats">
+                <div class="stat-item">
+                  <span class="label">GOLES</span>
+                  <span class="val">{{ player.goals }}</span>
+                </div>
+                <div class="stat-item">
+                  <span class="label">ASIST.</span>
+                  <span class="val">{{ player.assists || 0 }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <ng-template #loadingTemp>
+            <div class="skeleton-grid">
+              <ion-spinner name="crescent"></ion-spinner>
+            </div>
+          </ng-template>
+        </section>
+
+      </div>
+    </ion-content>
+  </div>
+</ion-split-pane>

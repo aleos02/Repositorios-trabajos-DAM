@@ -1,0 +1,7 @@
+{
+  "name": "generacion-documentacion",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

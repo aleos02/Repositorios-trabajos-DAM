@@ -1,0 +1,86 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar class="custom-header">
+    <ion-title>Terminal Táctica - Emisión de Documentos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding page-background" scroll-y="false">
+  <div class="main-block-wrapper">
+    <ion-grid class="ion-no-padding">
+      <ion-row class="equal-height-row">
+        
+        <ion-col size="12" size-md="5">
+          <div class="form-container">
+            <h2 class="form-title">Generador de misiones</h2>
+            <p class="form-subtitle">Misión oficial de Seguridad</p>
+
+            <form [formGroup]="misionForm" (ngSubmit)="descargarPDF()">
+              
+              <div class="input-group">
+                <ion-item lines="none" class="custom-item">
+                  <ion-label position="stacked">Código de Misión (5 caracteres)</ion-label>
+                  <ion-input formControlName="codigo" placeholder="Ej: AS782" maxlength="5"></ion-input>
+                </ion-item>
+                <small *ngIf="misionForm.get('codigo')?.invalid && misionForm.get('codigo')?.touched" class="error-message">
+                  * Requiere exactamente 5 caracteres alfanuméricos.
+                </small>
+              </div>
+
+              <div class="input-group">
+                <ion-item lines="none" class="custom-item">
+                  <ion-label position="stacked">Clasificación de Rango</ion-label>
+                  <ion-select formControlName="rango" placeholder="Seleccione el nivel" interface="popover">
+                    <ion-select-option value="Rango S - Confidencial">Rango S - Confidencial</ion-select-option>
+                    <ion-select-option value="Rango A - Élite">Rango A - Élite</ion-select-option>
+                    <ion-select-option value="Rango B - Avanzado">Rango B - Avanzado</ion-select-option>
+                    <ion-select-option value="Rango C - Estándar">Rango C - Estándar</ion-select-option>
+                    <ion-select-option value="Rango D - Trivial">Rango D - Trivial</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </div>
+
+              <div class="input-group">
+                <ion-item lines="none" class="custom-item">
+                  <ion-label position="stacked">Oficial Asignado</ion-label>
+                  <ion-input formControlName="encargado" placeholder="Nombre del responsable"></ion-input>
+                </ion-item>
+              </div>
+
+              <div class="input-group last">
+                <ion-item lines="none" class="custom-item">
+                  <ion-label position="stacked">Instrucciones Estratégicas (Soporta varias páginas)</ion-label>
+                  <ion-textarea formControlName="objetivos" placeholder="Detalle los objetivos del despliegue..." rows="6"></ion-textarea>
+                </ion-item>
+                <small *ngIf="misionForm.get('objetivos')?.invalid && misionForm.get('objetivos')?.touched" class="error-message">
+                  * Debe ingresar un mínimo de 20 caracteres explicativos.
+                </small>
+              </div>
+
+              <ion-button type="submit" expand="block" color="warning" [disabled]="misionForm.invalid" class="btn-submit">
+                GENERAR Y DESCARGAR PDF
+              </ion-button>
+            </form>
+          </div>
+        </ion-col>
+
+        <ion-col size="12" size-md="7">
+          <div class="preview-container">
+            <h3 class="preview-title">Previsualización del Documento</h3>
+            
+            <div *ngIf="previewUrl; else noPreview" class="iframe-wrapper">
+              <iframe [src]="previewUrl" width="100%" height="100%" class="pdf-iframe"></iframe>
+            </div>
+
+            <ng-template #noPreview>
+              <div class="preview-placeholder">
+                <ion-icon name="document-text-outline" class="placeholder-icon"></ion-icon>
+                <p>Complete el formulario para generar el documento.</p>
+              </div>
+            </ng-template>
+          </div>
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

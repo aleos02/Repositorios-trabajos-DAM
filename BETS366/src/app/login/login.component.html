@@ -1,0 +1,67 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="custom-toolbar">
+    <div class="toolbar-content">
+      <span class="app-name">BETS366</span>
+      <button class="signup-nav-btn" (click)="goToRegister()">Sign Up</button>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="login-wrapper">
+
+    <div class="header-container">
+      <div class="logo-box">
+        <span class="material-symbols-outlined icon-soccer">sports_soccer</span>
+      </div>
+      <h1 class="welcome-title">Bienvenido de nuevo</h1>
+      <p class="subtitle">Predice. Compite. Gana con amigos.</p>
+    </div>
+
+    <div class="login-card">
+      <form (ngSubmit)="onLogin()">
+
+        <div class="input-group">
+          <label class="field-label">Correo electrónico</label>
+          <div class="input-container">
+            <span class="material-symbols-outlined input-icon">mail</span>
+            <input type="email" placeholder="nombre@ejemplo.com" [(ngModel)]="loginData.email" name="email"
+              class="native-input-style">
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="label-row">
+            <label class="field-label">Contraseña</label>
+          </div>
+          <div class="input-container">
+            <span class="material-symbols-outlined input-icon">lock</span>
+            <input [type]="showPassword ? 'text' : 'password'" placeholder="Ingresa tu contraseña"
+              [(ngModel)]="loginData.password" name="password" class="native-input-style">
+            <button type="button" (click)="showPassword = !showPassword" class="eye-btn">
+              <span class="material-symbols-outlined">{{ showPassword ? 'visibility_off' : 'visibility' }}</span>
+            </button>
+          </div>
+          <a class="forgot-link">¿Olvidaste tu contraseña?</a>
+        </div>
+
+        <div *ngIf="error" class="error-message">
+          <span class="material-symbols-outlined">error</span>
+          {{ error }}
+        </div>
+
+        <button type="submit" class="btn-play">
+          INICIAR SESIÓN PARA JUGAR
+        </button>
+      </form>
+
+      <div class="divider"></div>
+
+      <div class="footer-links">
+        <a (click)="goToRegister()" class="register-link">
+          Crea tu cuenta gratis <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</ion-content>

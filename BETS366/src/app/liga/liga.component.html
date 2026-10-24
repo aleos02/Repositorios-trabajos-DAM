@@ -1,0 +1,144 @@
+<ion-split-pane when="md" contentId="main-content">
+  <ion-menu contentId="main-content" type="overlay">
+    <div class="sidebar-wrapper">
+      <div class="sidebar-top">
+        <div class="brand">
+          <div class="brand-title-container">
+            <span class="material-symbols-outlined ball-icon">sports_soccer</span>
+            <h1>BETS366</h1>
+          </div>
+        </div>
+
+        <nav class="nav-menu">
+          <div class="nav-item" [class.active]="router.url.includes('panel')" (click)="goTo('/panel')">
+            <span class="material-symbols-outlined fill">dashboard</span>
+            <p>Panel</p>
+          </div>
+
+          <div class="nav-item" [class.active]="router.url.includes('liga')" (click)="goTo('/liga')">
+            <span class="material-symbols-outlined">trophy</span>
+            <p>Liga</p>
+          </div>
+
+          <div class="nav-item" [class.active]="router.url.includes('ranking')" (click)="goTo('/ranking')">
+            <span class="material-symbols-outlined">leaderboard</span>
+            <p>Ranking</p>
+          </div>
+
+          <div class="nav-item" [class.active]="router.url.includes('perfil')" (click)="goTo('/perfil')">
+            <span class="material-symbols-outlined">person</span>
+            <p>Mi Perfil</p>
+          </div>
+
+          <div class="nav-item" [class.active]="router.url.includes('historial')" (click)="goTo('/historial')">
+            <span class="material-symbols-outlined">history</span>
+            <p>Historial</p>
+          </div>
+        </nav>
+      </div>
+
+      <div class="sidebar-bottom">
+        <div class="user-info">
+          <div class="avatar">
+            <img [src]="currentUser.profilePic" alt="User Avatar" />
+          </div>
+          <div class="user-text">
+            <p class="name">{{ currentUser.username }}</p>
+          </div>
+        </div>
+
+        <div class="logout-btn" (click)="onLogout()">
+          <span class="material-symbols-outlined">logout</span>
+          <p>Log Out</p>
+        </div>
+      </div>
+    </div>
+  </ion-menu>
+
+  <div class="ion-page" id="main-content">
+    <ion-content [fullscreen]="true">
+      <div class="main-container">
+
+        <header class="page-heading">
+          <div class="title-group">
+            <h1>Clasificación y Resultados</h1>
+            <p>Temporada 2025/26 - La Liga</p>
+          </div>
+        </header>
+
+        <div class="table-card">
+          <div class="card-header">
+            <h2>Tabla de Clasificación</h2>
+          </div>
+          <div class="table-container">
+            <table class="standing-table">
+              <thead>
+                <tr>
+                  <th>POS</th>
+                  <th>EQUIPO</th>
+                  <th>PJ</th>
+                  <th>G</th>
+                  <th>E</th>
+                  <th>P</th>
+                  <th>GF</th>
+                  <th>GC</th>
+                  <th>PTS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let team of standings; let i = index" (click)="verEquipo(team.name)">
+                  <td class="pos">{{ i + 1 }}</td>
+                  <td>
+                    <div class="team-cell">
+                      <img [src]="getEscudoUrl(team.name)" class="mini-logo">
+                      <span>{{ team.name }}</span>
+                    </div>
+                  </td>
+                  <td>{{ team.pj }}</td>
+                  <td>{{ team.pg }}</td>
+                  <td>{{ team.pe }}</td>
+                  <td>{{ team.pp }}</td>
+                  <td>{{ team.gf }}</td>
+                  <td>{{ team.gc }}</td>
+                  <td class="pts">{{ team.pts }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="matchday-section">
+          <div class="matchday-nav">
+            <button (click)="changeMatchday(-1)" [disabled]="currentMatchday <= 1">
+              <span class="material-symbols-outlined">chevron_left</span>
+            </button>
+            <h2>Jornada {{ currentMatchday }}</h2>
+            <button (click)="changeMatchday(1)" [disabled]="currentMatchday >= 38">
+              <span class="material-symbols-outlined">chevron_right</span>
+            </button>
+          </div>
+
+          <div class="matches-grid">
+            <div class="match-card-custom" *ngFor="let match of matchdayMatches">
+              <div class="teams-display">
+                <div class="team">
+                  <img [src]="getEscudoUrl(match.home)" class="card-logo">
+                  <p>{{ match.home }}</p>
+                </div>
+                <div class="score-info">
+                  <div class="score-text">{{ match.homeScore }} - {{ match.awayScore }}</div>
+                  <div class="match-date">{{ match.time | date:'HH:mm' }}</div>
+                </div>
+                <div class="team">
+                  <img [src]="getEscudoUrl(match.away)" class="card-logo">
+                  <p>{{ match.away }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </ion-content>
+  </div>
+</ion-split-pane>

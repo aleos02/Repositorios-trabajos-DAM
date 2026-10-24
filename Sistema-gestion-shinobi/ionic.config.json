@@ -1,0 +1,7 @@
+{
+  "name": "Sistema-Gestion-Shinobi",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

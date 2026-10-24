@@ -1,0 +1,99 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="custom-toolbar">
+    <div class="toolbar-content">
+      <span class="app-name">BETS366</span>
+      <button class="login-nav-btn" (click)="goToLogin()">Login</button>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="register-wrapper bg-mesh">
+    <div class="main-container">
+
+      <div class="form-column">
+        <div class="form-header">
+          <h1 class="welcome-title">Crea Tu Cuenta</h1>
+          <p class="subtitle">Introduce tus datos para unirte a la comunidad y empezar a ganar.</p>
+        </div>
+
+        <div class="register-card">
+          <form (ngSubmit)="onRegister()">
+
+            <div class="input-group">
+              <label class="field-label">Nombre de usuario</label>
+              <div class="input-container">
+                <span class="material-symbols-outlined input-icon">person</span>
+                <input type="text" placeholder="Elige un nombre único" [(ngModel)]="registerData.username"
+                  name="username" class="native-input-style">
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label class="field-label">Correo electrónico</label>
+              <div class="input-container">
+                <span class="material-symbols-outlined input-icon">mail</span>
+                <input type="email" placeholder="tu@email.com" [(ngModel)]="registerData.email" name="email"
+                  class="native-input-style">
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label class="field-label">Contraseña</label>
+              <div class="input-container">
+                <span class="material-symbols-outlined input-icon">lock</span>
+                <input type="password" placeholder="Crea una contraseña segura" [(ngModel)]="registerData.password"
+                  name="password" class="native-input-style">
+              </div>
+            </div>
+
+            <div *ngIf="error" class="error-message">
+              <span class="material-symbols-outlined">error</span>
+              {{ error }}
+            </div>
+
+            <button type="submit" class="btn-play">
+              CREAR CUENTA
+            </button>
+          </form>
+
+          <div class="divider"></div>
+
+          <div class="footer-links">
+            <p>¿Ya tienes cuenta? <a (click)="goToLogin()" class="login-link">Inicia sesión</a></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-column">
+        <div class="info-overlay">
+          <div class="badge-live">
+            <span class="material-symbols-outlined">stadium</span>
+            PARTIDOS EN VIVO AHORA
+          </div>
+          <h1 class="info-title">La Arena Social de Apuestas Definitiva</h1>
+          <p class="info-description">Vive cada jornada como nunca antes. Predice resultados, gana puntos y compite
+            contra tus amigos en la comunidad líder.</p>
+
+          <div class="stats-grid">
+            <div class="stat-box">
+              <span class="stat-value">50k+</span>
+              <span class="stat-label">Usuarios</span>
+            </div>
+            <div class="stat-separator"></div>
+            <div class="stat-box">
+              <span class="stat-value">20+</span>
+              <span class="stat-label">Clubes</span>
+            </div>
+            <div class="stat-separator"></div>
+            <div class="stat-box">
+              <span class="stat-value">0€</span>
+              <span class="stat-label">Gratis</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</ion-content>

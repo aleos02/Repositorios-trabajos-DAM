@@ -1,0 +1,107 @@
+<ion-split-pane when="md" contentId="main-content">
+  <ion-menu contentId="main-content" type="overlay">
+    <div class="sidebar-wrapper">
+      <div class="sidebar-top">
+        <div class="brand">
+          <div class="brand-title-container">
+            <span class="material-symbols-outlined ball-icon">sports_soccer</span>
+            <h1>BETS366</h1>
+          </div>
+        </div>
+        <nav class="nav-menu">
+          <div class="nav-item" (click)="goTo('/panel')">
+            <span class="material-symbols-outlined">dashboard</span>
+            <p>Panel</p>
+          </div>
+          <div class="nav-item" (click)="goTo('/liga')">
+            <span class="material-symbols-outlined">trophy</span>
+            <p>Liga</p>
+          </div>
+          <div class="nav-item" (click)="goTo('/ranking')">
+            <span class="material-symbols-outlined">leaderboard</span>
+            <p>Ranking</p>
+          </div>
+          <div class="nav-item active">
+            <span class="material-symbols-outlined fill">person</span>
+            <p>Mi Perfil</p>
+          </div>
+          <div class="nav-item" (click)="goTo('/historial')">
+            <span class="material-symbols-outlined">history</span>
+            <p>Historial</p>
+          </div>
+        </nav>
+      </div>
+      <div class="sidebar-bottom">
+        <div class="user-info">
+          <div class="avatar"><img [src]="currentUser.profilePic" /></div>
+          <div class="user-text">
+            <p class="name">{{ currentUser.username }}</p>
+          </div>
+        </div>
+        <div class="logout-btn" (click)="onLogout()">
+          <span class="material-symbols-outlined">logout</span>
+          <p>Log Out</p>
+        </div>
+      </div>
+    </div>
+  </ion-menu>
+
+  <div class="ion-page" id="main-content">
+    <ion-content [fullscreen]="true">
+      <div class="main-container profile-page">
+
+        <header class="page-heading">
+          <div class="title-group">
+            <h1>Configuración de Perfil</h1>
+            <p>Personaliza tu cuenta y avatar</p>
+          </div>
+          <div class="points-badge-top">
+            <span class="material-symbols-outlined">payments</span>
+            {{ currentUser.points || 0 }} PTS
+          </div>
+        </header>
+
+        <div class="profile-header-card">
+          <div class="avatar-large">
+            <span class="material-symbols-outlined icon-display">{{ selectedAvatarIcon }}</span>
+          </div>
+          <div class="header-text">
+            <h2>{{ currentUser.username }}</h2>
+            <p>MIEMBRO DESDE 2026</p>
+          </div>
+        </div>
+
+        <div class="details-card">
+          <div class="card-title">
+            <span class="material-symbols-outlined">badge</span>
+            <h3>Detalles Públicos</h3>
+          </div>
+
+          <div class="form-group">
+            <label>NOMBRE DE USUARIO</label>
+            <div class="input-wrapper">
+              <span class="material-symbols-outlined">assignment_ind</span>
+              <input type="text" [(ngModel)]="newUsername" [placeholder]="currentUser.username">
+            </div>
+          </div>
+
+          <div class="avatar-selector-section">
+            <label>CAMBIAR ICONO DE AVATAR</label>
+            <div class="icon-grid">
+              <div class="icon-option" *ngFor="let icon of avatarIcons" [class.selected]="selectedAvatarIcon === icon"
+                (click)="selectIcon(icon)">
+                <span class="material-symbols-outlined">{{ icon }}</span>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn-save" (click)="saveChanges()">
+            <span class="material-symbols-outlined">save</span>
+            Confirmar Cambios
+          </button>
+        </div>
+
+      </div>
+    </ion-content>
+  </div>
+</ion-split-pane>
